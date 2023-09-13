@@ -1,0 +1,10 @@
+[Unit]
+Description=Backup
+
+[Service]
+User=pi
+Type=oneshot
+Environment="RESTIC_PASSWORD_FILE=/home/pi/restic_pw"
+ExecStart=sudo systemctl stop syncthing@pi.service
+ExecStart={{ restic_binary_path }} -r rclone:{{ cloud_name }}:backup -v backup /mnt/storage/Bilder
+ExecStop=sudo systemctl start syncthing@pi.service

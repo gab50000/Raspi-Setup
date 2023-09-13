@@ -1,0 +1,33 @@
+- name: Setup backup service
+  hosts: all
+  vars_files:
+    - restic-vars.yml
+    - rclone-vars.yml
+  tasks:
+    - name: Copy service file
+      ansible.builtin.template:
+        src: backup/backup.service.j2
+        dest: /etc/systemd/system/backup.service
+        mode: "0644"
+      become: true
+
+    - name: Copy timer file
+      ansible.builtin.copy:
+        src: backup/backup.timer
+        dest: /etc/systemd/system/backup.timer
+        mode: "0644"
+      become: true
+
+    - name: Enable service
+      ansible.builtin.systemd:
+        name: backup.service
+        enabled: true
+        daemon_reload: true
+      become: true
+
+    - name: Enable timer
+      ansible.builtin.systemd:
+        name: backup.timer
+        state: started
+        enabled: true
+      become: true

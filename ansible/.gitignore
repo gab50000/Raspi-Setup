@@ -1,0 +1,5 @@
+*.pem
+syncthing/*
+!syncthing/config.xml
+extra_vars.yml
+passwords.yml

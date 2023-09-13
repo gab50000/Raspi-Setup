@@ -1,0 +1,11 @@
+[Unit]
+Description=Run backup every day at night
+RefuseManualStart=no  # Allow manual starts
+RefuseManualStop=no   # Allow manual stops
+
+[Timer]
+Unit=backup.service
+OnCalendar=*-*-* 03:00:00
+
+[Install]
+WantedBy=timers.target

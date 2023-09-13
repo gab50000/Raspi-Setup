@@ -1,0 +1,7 @@
+raspberries:
+  hosts:
+    raspberry4:
+      ansible_host: raspi
+      ansible_user: pi
+
+

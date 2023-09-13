@@ -1,0 +1,5 @@
+
+restic_binary_name: restic_0.16.0_linux_arm64
+restic_archive: restic_0.16.0_linux_arm64.bz2
+restic_dir: "/home/{{ ansible_user }}/programs/restic"
+restic_binary_path: "{{ restic_dir }}/{{ restic_binary_name }}"

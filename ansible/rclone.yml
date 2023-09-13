@@ -1,0 +1,41 @@
+- name: Setup rclone
+  hosts: all
+  vars:
+    rclone_config_dir: "/home/{{ ansible_user }}/.config/rclone"
+  vars_prompt:
+    - name: cloud_name
+      prompt: Enter cloud name
+      private: false
+    - name: cloud_type
+      prompt: Enter cloud type
+      private: false
+    - name: cloud_url
+      prompt: Enter cloud url
+      private: false
+    - name: cloud_vendor
+      prompt: Enter cloud vendor
+      private: false
+    - name: cloud_user
+      prompt: Enter cloud user
+      private: false
+    - name: cloud_password
+      prompt: Enter cloud password
+
+  tasks:
+    - name: Ensure rclone is installed
+      ansible.builtin.apt:
+        name: rclone
+        update_cache: true
+      become: true
+
+    - name: Ensure rclone config dir exists
+      ansible.builtin.file:
+        state: directory
+        mode: "0700"
+        path: "{{ rclone_config_dir }}"
+
+    - name: Create config
+      ansible.builtin.template:
+        src: rclone/rclone.conf.j2
+        dest: "/home/{{ ansible_user }}/.config/rclone/rclone.conf"
+        mode: "0600"
