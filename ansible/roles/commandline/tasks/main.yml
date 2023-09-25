@@ -1,0 +1,48 @@
+- name: Install git and zsh
+  ansible.builtin.apt:
+    pkg:
+      - zsh
+      - git
+    state: present
+    update_cache: true
+  become: true
+
+- name: Define oh-my-zsh folder
+  ansible.builtin.stat:
+    path: "/home/{{ ansible_user }}/.oh-my-zsh"
+  register: omz_path
+
+- name: Download and install oh-my-zsh
+  when: not omz_path.stat.exists
+  block:
+    - name: Create temporary file
+      ansible.builtin.tempfile:
+        state: file
+        suffix: temp
+      register: omz_installer
+      notify: "Delete tempfile"
+
+    - name: Download oh-my-zsh installer
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+        dest: "{{ omz_installer.path }}"
+        mode: "0400"
+
+    - name: Install oh-my-zsh
+      ansible.builtin.command: "sh {{ omz_installer.path }} --unattended"
+      args:
+        creates: omz_path
+
+- name: Change default shell to zsh
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    shell: /bin/zsh
+
+- name: Install commandline tools
+  ansible.builtin.apt:
+    pkg:
+      - tmux
+      - vim
+    state: present
+  become: true

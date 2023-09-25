@@ -1,10 +1,20 @@
-- import_playbook: ssh.yml
-- import_playbook: storage.yml
-- import_playbook: commandline.yml
-- import_playbook: rclone.yml
-- import_playbook: restic.yml
-- import_playbook: syncthing.yml
-- import_playbook: logging.yml
-  when:
-    - use_logging is defined
-    - use_logging|bool == true
+# - import_playbook: ssh.yml
+# - import_playbook: storage.yml
+# - import_playbook: commandline.yml
+# - import_playbook: rclone.yml
+# - import_playbook: restic.yml
+# - import_playbook: syncthing.yml
+# - import_playbook: logging.yml
+#   when:
+#     - use_logging is defined
+#     - use_logging|bool == true
+
+- hosts: raspberry4
+  roles:
+    - ssh
+    - storage
+    - commandline
+    - rclone
+    - restic
+    - syncthing
+    - logging

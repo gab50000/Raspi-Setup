@@ -1,0 +1,31 @@
+- name: Enable PubkeyAuthentication
+  become: true
+  block:
+    - ansible.builtin.lineinfile:
+        regexp: r"^\s*PubkeyAuthentication\s*yes"
+        line: "PubkeyAuthentication yes"
+        path: /etc/ssh/sshd_config
+        state: present
+        backup: true
+
+    - ansible.builtin.lineinfile:
+        regexp: r"^\s*PubkeyAuthentication\s*no"
+        path: /etc/ssh/sshd_config
+        state: absent
+        backup: true
+
+- name: Disable PasswordAuthentication
+  become: true
+  block:
+    - ansible.builtin.lineinfile:
+        regexp: r"^\s*PasswordAuthentication\s*no"
+        line: "PasswordAuthentication no"
+        path: /etc/ssh/sshd_config
+        state: present
+        backup: true
+
+    - ansible.builtin.lineinfile:
+        regexp: r"^\s*PubkeyAuthentication\s*yes"
+        path: /etc/ssh/sshd_config
+        state: absent
+        backup: true

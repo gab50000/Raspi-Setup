@@ -1,0 +1,2 @@
+config_dir: /home/{{ ansible_user }}/.config/matrix-commander
+store_dir: /home/{{ ansible_user }}/.local/share/matrix-commander/store

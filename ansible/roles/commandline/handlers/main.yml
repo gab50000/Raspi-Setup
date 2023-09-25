@@ -1,0 +1,4 @@
+- name: "Delete tempfile"
+  ansible.builtin.file:
+    path: "{{ omz_installer.path }}"
+    state: absent
