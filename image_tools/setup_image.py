@@ -11,8 +11,8 @@ from getpass import getpass, getuser
 logger = logging.getLogger("setup-image")
 
 
-def set_password() -> str:
-    return getpass(f"Please enter password for user {args.username}: ")
+def set_password(username) -> str:
+    return getpass(f"Please enter password for user {username}: ")
 
 
 def mount_image(image_path: pathlib.Path) -> tuple[pathlib.Path, pathlib.Path]:
@@ -86,7 +86,7 @@ args = parser.parse_args()
 
 
 if not args.password:
-    args.password = set_password()
+    args.password = set_password(args.username)
 
 try:
     bootfs_path, rootfs_path = mount_image(args.image_path)
