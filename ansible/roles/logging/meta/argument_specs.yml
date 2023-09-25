@@ -1,0 +1,16 @@
+argument_specs:
+  main:
+    short_description: The main entry point for the logging role.
+    options:
+      matrix_server:
+        type: "str"
+        required: true
+      matrix_user:
+        type: "str"
+        required: true
+      matrix_password:
+        type: "str"
+        required: true
+      matrix_room:
+        type: "str"
+        required: true
