@@ -6,7 +6,7 @@
     - rclone
     - restic
     - syncthing
-    - role: logging
+    - role: matrix-commander
       when:
         - use_logging is defined
         - use_logging|bool == true
