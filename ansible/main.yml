@@ -8,6 +8,8 @@
     - rclone
     - restic
     - syncthing
+    - name: backup
+      tags: backup
     - role: matrix-commander
       when:
         - use_logging is defined
