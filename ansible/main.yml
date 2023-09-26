@@ -1,5 +1,7 @@
 - hosts: raspberry4
   roles:
+    - role: mikolak-net.raspi_config
+      become: true
     - ssh
     - storage
     - commandline
