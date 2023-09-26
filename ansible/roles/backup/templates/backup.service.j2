@@ -4,10 +4,11 @@ Description=Backup
 [Service]
 User=pi
 Type=oneshot
-Environment="RESTIC_PASSWORD_FILE=/home/{{ ansible_user }}/restic_pw"
+Environment="RESTIC_PASSWORD_FILE=/home/{{ ansible_user }}/restic_pw matrix_commander=/home/{{ ansible_user }}/.local/bin/matrix-commander"
 ExecStart=sudo systemctl stop syncthing@pi.service
 ExecStart={{ restic_binary_path }} -r rclone:{{ cloud_name }}:backup -v backup {{ backup_target }}
 ExecStop=sudo systemctl start syncthing@pi.service
 {% if use_logging|bool -%}
-ExecStop=/bin/bash -c "journalctl | grep \"$(date +'%%b %%d')\" | grep restic | /home/{{ ansible_user }}/.local/bin/matrix-commander -m -"
+ExecStop=/bin/bash -c "journalctl | grep \"$(date +'%%b %%d')\" | grep restic | $matrix_commander -m -"
+ExecStop=/bin/bash -c "{{ restic_binary_path }} -r rclone:{{ cloud_name }}:backup snapshots --latest 2 | tail -n +3 | head -n 2 | awk '{print \$1}' | xargs {{ restic_binary_path }} -r rclone:{{ cloud_name }}:backup diff | $matrix_commander -m -"
 {% endif %}
