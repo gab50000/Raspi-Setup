@@ -2,15 +2,23 @@
   roles:
     - role: mikolak-net.raspi_config
       become: true
-    - ssh
-    - storage
-    - commandline
-    - rclone
-    - restic
-    - syncthing
+      tags: raspi_config
+    - role: ssh
+      tags: ssh
+    - role: storage
+      tags: storage
+    - name: commandline
+      tags: commandline
+    - name: rclone
+      tags: rclone
+    - name: restic
+      tags: restic
+    - name: syncthing
+      tags: syncthing
     - name: backup
       tags: backup
     - role: matrix-commander
+      tags: matrix-commander
       when:
         - use_logging is defined
         - use_logging|bool == true
