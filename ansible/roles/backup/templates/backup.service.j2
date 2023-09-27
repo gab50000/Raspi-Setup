@@ -4,7 +4,8 @@ Description=Backup
 [Service]
 User=pi
 Type=oneshot
-Environment="RESTIC_PASSWORD_FILE=/home/{{ ansible_user }}/restic_pw matrix_commander=/home/{{ ansible_user }}/.local/bin/matrix-commander"
+Environment=RESTIC_PASSWORD_FILE=/home/{{ ansible_user }}/restic_pw
+Environment=matrix_commander=/home/{{ ansible_user }}/.local/bin/matrix-commander
 ExecStart=sudo systemctl stop syncthing@pi.service
 ExecStart={{ restic_binary_path }} -r rclone:{{ cloud_name }}:backup -v backup {{ backup_target }}
 ExecStop=sudo systemctl start syncthing@pi.service
