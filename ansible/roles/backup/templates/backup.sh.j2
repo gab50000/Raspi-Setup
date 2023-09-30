@@ -1,0 +1,21 @@
+#!/bin/bash
+set -euxo pipefail
+
+restic(){
+    {{ restic_binary_path }} -r rclone:{{ cloud_name }}:backup "$@"
+}
+
+matrix-commander(){
+    /home/{{ ansible_user }}/.local/bin/matrix-commander "$@"
+}
+
+send_logs(){
+    journalctl | grep \"$(date +'%b %d')\" | grep restic | matrix-commander -m -
+}
+
+compare_snapshots(){
+    local snapshots=$(restic snapshots --latest 2 | tail -n +3 | head -n 2 | awk '{print $1}' | xargs)
+    restic diff $snapshots | matrix-commander -m -
+}
+
+"$@"
