@@ -18,4 +18,8 @@ compare_snapshots(){
     restic diff $snapshots | matrix-commander -m -
 }
 
+check_integrity(){
+    restic check "$@" | matrix-commander -m -
+}
+
 "$@"

@@ -8,7 +8,8 @@ Environment=RESTIC_PASSWORD_FILE=/home/{{ ansible_user }}/restic_pw
 ExecStart=sudo systemctl stop syncthing@pi.service
 ExecStart={{ backup_script.dest }} restic -v backup {{ backup_target }}
 ExecStop=sudo systemctl start syncthing@pi.service
-#{% if use_logging|bool -%}
+{% if use_logging|bool -%}
 ExecStop={{ backup_script.dest }} send_logs
 ExecStop={{ backup_script.dest }} compare_snapshots
-#{% endif %}
+ExecStop={{ backup_script.dest }} check_integrity --read-data-subset=10%
+{% endif %}
