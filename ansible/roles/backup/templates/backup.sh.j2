@@ -10,7 +10,7 @@ matrix-commander(){
 }
 
 send_logs(){
-    journalctl | grep \"$(date +'%b %d')\" | grep restic | matrix-commander -m -
+    journalctl | grep "$(date +'%b %d')" | grep restic | matrix-commander -m -
 }
 
 compare_snapshots(){
