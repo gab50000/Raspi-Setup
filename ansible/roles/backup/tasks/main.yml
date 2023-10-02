@@ -5,10 +5,17 @@
     mode: "0500"
   register: backup_script
 
-- name: Copy service file
+- name: Copy backup service file
   ansible.builtin.template:
     src: templates/backup.service.j2
     dest: /etc/systemd/system/backup.service
+    mode: "0644"
+  become: true
+
+- name: Copy integrity service file
+  ansible.builtin.template:
+    src: templates/integrity.service.j2
+    dest: /etc/systemd/system/integrity.service
     mode: "0644"
   become: true
 
@@ -19,9 +26,16 @@
     mode: "0644"
   become: true
 
-- name: Enable service
+- name: Enable backup service
   ansible.builtin.systemd:
     name: backup.service
+    enabled: true
+    daemon_reload: true
+  become: true
+
+- name: Enable integrity service
+  ansible.builtin.systemd:
+    name: integrity.service
     enabled: true
     daemon_reload: true
   become: true

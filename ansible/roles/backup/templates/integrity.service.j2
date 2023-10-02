@@ -1,0 +1,11 @@
+
+[Unit]
+Description=Check backup integrity
+Wants=backup.service
+After=backup.service
+
+[Service]
+User=pi
+Type=oneshot
+Environment=RESTIC_PASSWORD_FILE=/home/{{ ansible_user }}/restic_pw
+ExecStart={{ backup_script.dest }} check_integrity --read-data-subset=10%

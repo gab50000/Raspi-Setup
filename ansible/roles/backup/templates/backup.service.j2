@@ -11,5 +11,4 @@ ExecStop=sudo systemctl start syncthing@pi.service
 {% if use_logging|bool -%}
 ExecStop={{ backup_script.dest }} send_logs
 ExecStop={{ backup_script.dest }} compare_snapshots
-ExecStop={{ backup_script.dest }} check_integrity --read-data-subset=10%
 {% endif %}
