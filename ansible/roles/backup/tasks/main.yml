@@ -5,44 +5,42 @@
     mode: "0500"
   register: backup_script
 
-- name: Copy backup service file
+- name: Copy service files
   ansible.builtin.template:
-    src: templates/backup.service.j2
-    dest: /etc/systemd/system/backup.service
+    src: "templates/{{ item }}.service.j2"
+    dest: "/etc/systemd/system/{{ item }}.service"
     mode: "0644"
   become: true
+  loop:
+    - backup
+    - integrity
 
-- name: Copy integrity service file
-  ansible.builtin.template:
-    src: templates/integrity.service.j2
-    dest: /etc/systemd/system/integrity.service
-    mode: "0644"
-  become: true
-
-- name: Copy timer file
+- name: Copy timer files
   ansible.builtin.copy:
-    src: files/backup.timer
-    dest: /etc/systemd/system/backup.timer
+    src: "files/{{ item }}.timer"
+    dest: "/etc/systemd/system/{{ item }}.timer"
     mode: "0644"
   become: true
+  loop:
+    - backup
+    - integrity
 
-- name: Enable backup service
+- name: Enable services
   ansible.builtin.systemd:
-    name: backup.service
+    name: "{{ item }}.service"
     enabled: true
     daemon_reload: true
   become: true
+  loop:
+    - backup
+    - integrity
 
-- name: Enable integrity service
+- name: Enable timers
   ansible.builtin.systemd:
-    name: integrity.service
-    enabled: true
-    daemon_reload: true
-  become: true
-
-- name: Enable timer
-  ansible.builtin.systemd:
-    name: backup.timer
+    name: "{{ item }}.timer"
     state: started
     enabled: true
   become: true
+  loop:
+    - backup
+    - integrity
