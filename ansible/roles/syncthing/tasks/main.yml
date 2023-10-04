@@ -1,8 +1,15 @@
+- name: Increase number of watches
+  ansible.builtin.lineinfile:
+    line: fs.inotify.max_user_watches=204800
+    path: /etc/sysctl.conf
+  become: true
+
 - name: Copy config
   ansible.builtin.copy:
     src: files/syncthing
     dest: "/home/{{ ansible_user }}/.config"
     mode: "0700"
+    backup: true
 
 - name: Add PGP keys
   ansible.builtin.get_url:
