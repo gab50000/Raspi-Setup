@@ -4,7 +4,7 @@ After=backup.service
 Wants=backup.service
 
 [Timer]
-OnCalendar=*-*-* 03:00:00
+OnCalendar=Sun *-*-* 03:00:00
 Unit=integrity.service
 
 [Install]
