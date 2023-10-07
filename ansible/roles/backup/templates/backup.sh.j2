@@ -14,7 +14,7 @@ send_logs(){
 }
 
 compare_snapshots(){
-    local snapshots=$(restic snapshots --latest 2 | tail -n +3 | head -n 2 | awk '{print $1}' | xargs)
+    local snapshots=$(restic snapshots --host {{ raspi_config_hostname }} --latest 2 | tail -n +3 | head -n 2 | awk '{print $1}' | xargs)
     restic diff $snapshots | matrix-commander -m -
 }
 
