@@ -3,3 +3,4 @@ syncthing/*
 !syncthing/config.xml
 extra_vars.yml
 passwords.yml
+update_syncthing_config.sh
